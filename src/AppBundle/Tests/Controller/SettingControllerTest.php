@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SettingControllerTest extends WebTestCase
 {
-    /*
+    
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
@@ -19,8 +19,8 @@ class SettingControllerTest extends WebTestCase
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'appbundle_setting[field_name]'  => 'Test',
-            // ... other fields to fill
+            'setting[key]'  => 'Test',
+            'setting[value]'  => 'Dummy Value',
         ));
 
         $client->submit($form);
@@ -32,9 +32,8 @@ class SettingControllerTest extends WebTestCase
         // Edit the entity
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
-        $form = $crawler->selectButton('Update')->form(array(
-            'appbundle_setting[field_name]'  => 'Foo',
-            // ... other fields to fill
+        $form = $crawler->selectButton('Edit')->form(array(
+            'setting[key]'  => 'Foo',
         ));
 
         $client->submit($form);
@@ -50,6 +49,4 @@ class SettingControllerTest extends WebTestCase
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
-
-    */
 }

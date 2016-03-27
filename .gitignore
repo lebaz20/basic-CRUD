@@ -15,5 +15,6 @@
 /vendor/
 /web/bundles/
 /nbproject/private/
-
+app/sqlite.db
 composer.lock
+*~

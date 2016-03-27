@@ -45,11 +45,7 @@ class SettingController extends Controller
         $form = $this->createForm('AppBundle\Form\SettingType', $setting);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($setting);
-            $em->flush();
-
+        if ($this->validateSetting($form, $setting)) {
             return $this->redirectToRoute('setting_show', array('id' => $setting->getId()));
         }
 
@@ -87,11 +83,7 @@ class SettingController extends Controller
         $editForm = $this->createForm('AppBundle\Form\SettingType', $setting);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($setting);
-            $em->flush();
-
+        if ($this->validateSetting($editForm, $setting)) {
             return $this->redirectToRoute('setting_edit', array('id' => $setting->getId()));
         }
 
@@ -136,5 +128,25 @@ class SettingController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Validate setting form
+     * If form is validate, setting can be persisted in DB 
+     * 
+     * @param \Symfony\Component\Form\Form  $form
+     * @param Setting $setting
+     * @param bool $persistIfValid ,default is bool true
+     * @return bool setting form validation result
+     */
+    private function validateSetting($form, $setting, $persistIfValid = true)
+    {
+        $isValid = $form->isSubmitted() && $form->isValid();
+        if ($isValid === true && $persistIfValid === true) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($setting);
+            $entityManager->flush();
+        }
+        return $isValid;
     }
 }
